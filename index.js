@@ -12,6 +12,8 @@ async function handleRequest(request) {
   return response;
 }
 
-addEventListener("fetch", (event) => {
-  event.respondWith(handleRequest(event.request));
+addEventListener('fetch', async event => {
+  const response = await handleRequest(event.request);
+
+  event.respondWith(response);
 });
