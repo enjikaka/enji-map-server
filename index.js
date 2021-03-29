@@ -1,4 +1,4 @@
-function geodeticToGrid(x, y) {
+function geodeticToGrid(latitude, longitude) {
   const axis = 6378137.0; // GRS 80.
   const flattening = 1.0 / 298.257222101; // GRS 80.
   const central_meridian = 15.00;
