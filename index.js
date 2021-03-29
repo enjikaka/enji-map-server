@@ -1,18 +1,31 @@
+const lantmäteriet = ({ x, y, z }) =>
+  `https://api.lantmateriet.se/open/topowebb-ccby/v1/wmts/token/${Deno.env.get('API_KEY')}/?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=topowebb&STYLE=default&TILEMATRIXSET=3857&TILEMATRIX=${z}&TILEROW=${y}&TILECOL=${x}&FORMAT=image/png`
+
+const googleMaps = ({ x, y, z }) =>
+  `https://khms1.googleapis.com/kh?v=899&hl=sv-SE&x=${x}&y=${y}&z=${z}`;
+
 async function handleRequest(request) {
   const { pathname } = new URL(request.url);
-  const [, x, y, z] = pathname.split('/');
-  const apiKey = Deno.env.get('API_KEY');
-  const url = `https://api.lantmateriet.se/open/topowebb-ccby/v1/wmts/token/${apiKey}/?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=topowebb&STYLE=default&TILEMATRIXSET=3857&TILEMATRIX=${z}&TILEROW=${y}&TILECOL=${x}&FORMAT=image/png`;
 
-  console.log(url);
+  const [, service, x, y, z] = pathname.split('/');
 
-  return fetch(url);
+  if (service === 'l') {
+    return lantmäteriet({ x, y, z });
+  }
+
+  if (service === 'g') {
+    return googleMaps({ x, y, z });
+  }
+
+  return new Response('Nothing to see here...', {
+    headers: {
+      'content-type': 'text/plain'
+    }
+  });
 }
 
 addEventListener('fetch', async event => {
   const response = await handleRequest(event.request);
-
-  console.log(response);
 
   event.respondWith(response);
 });
