@@ -10,11 +10,15 @@ async function handleRequest(request) {
   const [, service, x, y, z] = pathname.split('/');
 
   if (service === 'l') {
-    return lantmäteriet({ x, y, z });
+    return fetch(
+      lantmäteriet({ x, y, z })
+    );
   }
 
   if (service === 'g') {
-    return googleMaps({ x, y, z });
+    return fetch(
+      googleMaps({ x, y, z })
+    );
   }
 
   return new Response('Nothing to see here...', {
