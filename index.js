@@ -61,7 +61,7 @@ const lantmäteriet = ({ x, y, z }) =>
   `https://api.lantmateriet.se/open/topowebb-ccby/v1/wmts/token/${Deno.env.get('API_KEY')}/?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=topowebb&STYLE=default&TILEMATRIXSET=3857&TILEMATRIX=${z}&TILEROW=${y}&TILECOL=${x}&FORMAT=image/png`
 
 const lantmäterietHifi = ({ x, y, z }) => {
-  const { x2, y2 } = geodeticToGrid(x, y);
+  const { x: x2, y: y2 } = geodeticToGrid(x, y);
 
   return `https://ext-geoportal.lansstyrelsen.se/lmproxy/wmts/1.0.0/topowebb/default/3006/${z}/${y2}/${x2}.png`;
 };
